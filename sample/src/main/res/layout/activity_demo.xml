@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/translucent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tv_left_top"
+            style="@style/demo_text"
+            android:text="Left Top" />
+
+        <TextView
+            android:id="@+id/tv_right_top"
+            style="@style/demo_text"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:text="Right Top" />
+
+        <TextView
+            android:id="@+id/tv_left_bottom"
+            style="@style/demo_text"
+            android:layout_alignParentBottom="true"
+            android:text="Left Bottom" />
+
+        <TextView
+            android:id="@+id/tv_right_bottom"
+            style="@style/demo_text"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:text="Right Bottom" />
+
+        <ImageView
+            android:id="@+id/iv_center"
+            android:layout_width="240dp"
+            android:layout_height="240dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/scene" />
+
+    </RelativeLayout>
+
+    <com.karic.guideview.GuideView
+        android:id="@+id/guideView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/translucent" />
+
+</FrameLayout>
