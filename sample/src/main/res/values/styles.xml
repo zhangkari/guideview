@@ -2,6 +2,7 @@
 
     <style name="demo_text">
         <item name="android:padding">10dp</item>
+        <item name="android:layout_margin">40dp</item>
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">#454545</item>
         <item name="android:layout_width">wrap_content</item>
