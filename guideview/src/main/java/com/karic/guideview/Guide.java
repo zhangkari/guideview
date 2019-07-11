@@ -43,15 +43,13 @@ public class Guide {
     private int id;
     private Animator animator;
     private View view; // custom View
-    private int backgroudColor;
-    private @Shape
-    int shape;
-    private @Position
-    int position;
+    private int backgroundColor;
+    private @Shape int shape;
+    private @Position int position;
 
     public Guide(@NonNull View anchor) {
         this.anchor = anchor;
-        backgroudColor = Color.WHITE;
+        backgroundColor = Color.WHITE;
         shape = SHAPE_RECT;
         position = POS_LEFT_TOP;
     }
@@ -68,7 +66,7 @@ public class Guide {
     public Bitmap snapshot() {
         Bitmap bmp = Bitmap.createBitmap(anchor.getWidth(), anchor.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas c = new Canvas(bmp);
-        c.drawColor(backgroudColor);
+        c.drawColor(backgroundColor);
         anchor.draw(c);
         return bmp;
     }
@@ -130,7 +128,7 @@ public class Guide {
         }
 
         public Builder setBackgroundColor(int color) {
-            guide.backgroudColor = color;
+            guide.backgroundColor = color;
             return this;
         }
 

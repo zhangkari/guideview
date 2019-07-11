@@ -4,6 +4,8 @@ import android.animation.Animator;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,7 +65,7 @@ public class GuideView extends FrameLayout {
         mOnGuideFinishListener = listener;
     }
 
-    public void setGuideItemClick(OnGuideItemClickListener listener) {
+    public void setGuideItemClickListener(OnGuideItemClickListener listener) {
         mGuideItemClickListener = listener;
     }
 
@@ -91,6 +93,7 @@ public class GuideView extends FrameLayout {
     }
 
     private void refreshImageView(final Guide guide) {
+        recycleBitmap();
         Bitmap bitmap = guide.snapshot();
         if (guide.getShape() == Guide.SHAPE_CIRCLE) {
             mImageView.setImageDrawable(new CircleImageDrawable(bitmap));
@@ -104,6 +107,14 @@ public class GuideView extends FrameLayout {
         mImageView.setX(guide.getAnchor().getX());
         mImageView.setY(guide.getAnchor().getY());
         mImageView.setLayoutParams(params);
+    }
+
+    private void recycleBitmap() {
+        Drawable drawable = mImageView.getDrawable();
+        if (drawable instanceof BitmapDrawable) {
+            BitmapDrawable bmp = (BitmapDrawable) drawable;
+            bmp.getBitmap().recycle();
+        }
     }
 
     private void animateImageView(final Guide guide) {
