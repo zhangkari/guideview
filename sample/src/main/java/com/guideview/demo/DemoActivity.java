@@ -39,21 +39,33 @@ public class DemoActivity extends AppCompatActivity {
         animators.play(scaleX).with(scaleY);
         animators.setDuration(600);
 
-        guideView.addGuide(new Guide.Builder(tvLeftTop).build())
+        guideView.addGuide(
+                new Guide.Builder(tvLeftTop)
+                        .setAnimator(animators)
+                        .setCustomView(bubbleView)
+                        .setViewPosition(Guide.POS_RIGHT_BOTTOM)
+                        .build())
                 .addGuide(new Guide.Builder(tvRightTop)
                         .setAnimator(animators)
+                        .setCustomView(bubbleView)
+                        .setGuideShape(Guide.SHAPE_OVAL)
+                        .setViewPosition(Guide.POS_LEFT_BOTTOM)
                         .build())
                 .addGuide(new Guide.Builder(ivCenter)
                         .setGuideShape(Guide.SHAPE_CIRCLE)
+                        .setCustomView(bubbleView)
+                        .setViewPosition(Guide.POS_CENTER_TOP)
                         .build())
                 .addGuide(new Guide.Builder(tvLeftBottom)
                         .setCustomView(bubbleView)
+                        .setGuideShape(Guide.SHAPE_OVAL)
                         .setViewPosition(Guide.POS_RIGHT_TOP)
                         .setAnimator(animators)
                         .build())
                 .addGuide(new Guide.Builder(tvRightBottom)
                         .setCustomView(bubbleView)
                         .setViewPosition(Guide.POS_LEFT_TOP)
+                        .setGuideShape(Guide.SHAPE_CIRCLE)
                         .setAnimator(animators)
                         .build());
 
@@ -63,13 +75,7 @@ public class DemoActivity extends AppCompatActivity {
                 v.setVisibility(View.GONE);
             }
         });
-
-        guideView.post(new Runnable() {
-            @Override
-            public void run() {
-                guideView.startGuide();
-            }
-        });
+        guideView.startGuide();
     }
 
     private void findViews() {

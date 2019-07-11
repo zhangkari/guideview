@@ -1,4 +1,4 @@
-package com.karic.guideview;
+package com.karic.guideview.drawable;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
@@ -13,12 +13,12 @@ import android.graphics.drawable.Drawable;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-public class CircleImageDrawable extends Drawable {
-    private Bitmap bitmap;
-    private Paint paint;
-    private RectF rectF;
+public class OvalImageDrawable extends Drawable {
+    protected Bitmap bitmap;
+    protected Paint paint;
+    protected RectF rectF;
 
-    public CircleImageDrawable(Bitmap bitmap) {
+    public OvalImageDrawable(Bitmap bitmap) {
         this.bitmap = bitmap;
         BitmapShader bitmapShader = new BitmapShader(bitmap, Shader.TileMode.CLAMP,
                 Shader.TileMode.CLAMP);
@@ -45,7 +45,7 @@ public class CircleImageDrawable extends Drawable {
 
     @Override
     public void draw(@NonNull Canvas canvas) {
-        canvas.drawRoundRect(rectF, rectF.width() / 2, rectF.height() / 2, paint);
+        canvas.drawOval(rectF, paint);
     }
 
     @Override

@@ -10,6 +10,9 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.karic.guideview.drawable.CircleImageDrawable;
+import com.karic.guideview.drawable.OvalImageDrawable;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +51,12 @@ public class GuideView extends FrameLayout {
     }
 
     public void startGuide() {
-        guideCurrent();
+        post(new Runnable() {
+            @Override
+            public void run() {
+                guideCurrent();
+            }
+        });
     }
 
     public void setOnGuideFinishListener(View.OnClickListener listener) {
@@ -83,11 +91,11 @@ public class GuideView extends FrameLayout {
     }
 
     private void refreshImageView(final Guide guide) {
-        Bitmap bitmap = guide.snapshotAnchor();
+        Bitmap bitmap = guide.snapshot();
         if (guide.getShape() == Guide.SHAPE_CIRCLE) {
             mImageView.setImageDrawable(new CircleImageDrawable(bitmap));
         } else if (guide.getShape() == Guide.SHAPE_OVAL) {
-
+            mImageView.setImageDrawable(new OvalImageDrawable(bitmap));
         } else {
             mImageView.setImageBitmap(bitmap);
         }
@@ -106,12 +114,10 @@ public class GuideView extends FrameLayout {
         guide.getAnimator().addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
-                guide.getAnchor().setVisibility(INVISIBLE);
             }
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                guide.getAnchor().setVisibility(VISIBLE);
                 guide.getAnimator().removeListener(this);
             }
 
@@ -128,18 +134,28 @@ public class GuideView extends FrameLayout {
         guide.getAnimator().start();
     }
 
-    private void layoutCustomView(Guide guide) {
+    private void layoutCustomView(final Guide guide) {
         if (guide.getView() == null) {
             return;
         }
-        View view = guide.getView();
+        final View view = guide.getView();
         if (view.getParent() != null) {
             ((ViewGroup) view.getParent()).removeView(view);
         }
-        Point pt = locateCustomView(guide);
-        view.setX(pt.x);
-        view.setY(pt.y);
         addView(view);
+        view.post(new Runnable() {
+            @Override
+            public void run() {
+                Point pt = locateCustomView(guide);
+                view.setX(pt.x);
+                view.setY(pt.y);
+            }
+        });
+    }
+
+    @Override
+    public LayoutParams generateDefaultLayoutParams() {
+        return new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     }
 
     private Point locateCustomView(Guide guide) {
@@ -161,12 +177,12 @@ public class GuideView extends FrameLayout {
                 break;
 
             case Guide.POS_CENTER_TOP:
-                pt.x = guide.getAnchor().getLeft() - guide.getAnchor().getWidth() / 2 - guide.getView().getWidth() / 2;
+                pt.x = guide.getAnchor().getLeft() + guide.getAnchor().getWidth() / 2 - guide.getView().getWidth() / 2;
                 pt.y = guide.getAnchor().getTop() - guide.getView().getHeight();
                 break;
 
             case Guide.POS_CENTER_BOTTOM:
-                pt.x = guide.getAnchor().getLeft() - guide.getAnchor().getWidth() / 2 - guide.getView().getWidth() / 2;
+                pt.x = guide.getAnchor().getLeft() + guide.getAnchor().getWidth() / 2 - guide.getView().getWidth() / 2;
                 pt.y = guide.getAnchor().getBottom();
                 break;
 

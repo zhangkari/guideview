@@ -2,6 +2,8 @@ package com.karic.guideview;
 
 import android.animation.Animator;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.view.View;
 
 import androidx.annotation.IntDef;
@@ -41,6 +43,7 @@ public class Guide {
     private int id;
     private Animator animator;
     private View view; // custom View
+    private int backgroudColor;
     private @Shape
     int shape;
     private @Position
@@ -48,11 +51,26 @@ public class Guide {
 
     public Guide(@NonNull View anchor) {
         this.anchor = anchor;
+        backgroudColor = Color.WHITE;
+        shape = SHAPE_RECT;
+        position = POS_LEFT_TOP;
     }
 
+    @Deprecated
+    /**
+     * @deprecated Use snapshot instead
+     */
     public Bitmap snapshotAnchor() {
         anchor.buildDrawingCache();
         return anchor.getDrawingCache();
+    }
+
+    public Bitmap snapshot() {
+        Bitmap bmp = Bitmap.createBitmap(anchor.getWidth(), anchor.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas c = new Canvas(bmp);
+        c.drawColor(backgroudColor);
+        anchor.draw(c);
+        return bmp;
     }
 
     public int getId() {
@@ -108,6 +126,11 @@ public class Guide {
 
         public Builder setViewPosition(@Position int position) {
             guide.position = position;
+            return this;
+        }
+
+        public Builder setBackgroundColor(int color) {
+            guide.backgroudColor = color;
             return this;
         }
 
